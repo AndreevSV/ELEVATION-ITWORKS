@@ -13,6 +13,13 @@ const descriptionInputEl = formEl.querySelector('#description');
 const dateInputEl = formEl.querySelector('#date');
 const todoContainerEl = document.querySelector('.todos-container');
 
+window.onload = (event) => {
+  if (localStorage.length != 0) {
+    Object.keys(localStorage).forEach((key) => renderTodo((JSON.parse(localStorage.getItem(key)))));
+  } 
+}
+
+
 formEl.addEventListener('submit', (e) => {
   e.preventDefault();
   validateInputs(formEl);
@@ -92,6 +99,8 @@ function validateInputs(formEl) {
   formEl.reset();
 }
 
+
+
 function renderErrorEl({ inputEl, errEl, msg, isError }) {
   if (!isError) {
     errEl.classList.add(CLASS_LISTS.ERROR.HIDE);
@@ -109,6 +118,7 @@ function renderErrorEl({ inputEl, errEl, msg, isError }) {
 }
 
 function createTodo({ title, description, date }) {
+  let item = 0;
   const todo = {
     id: makeUUID(),
     title,
@@ -117,6 +127,7 @@ function createTodo({ title, description, date }) {
   };
 
   state.todos.push(todo);
+  localStorage.setItem(todo.id, JSON.stringify(todo));
   renderTodo(todo);
 }
 
@@ -144,6 +155,7 @@ function removeTodo(id) {
   const todoEl = document.querySelector(`[data-todo-id="${id}"]`);
   todoEl.remove();
   state.todos = state.todos.filter((todo) => todo.id !== id);
+  localStorage.removeItem(id);
 }
 
 function makeUUID() {
@@ -158,3 +170,5 @@ function isDateValid(dateStr) {
   //01-01
   return !isNaN(new Date(dateStr));
 }
+
+
