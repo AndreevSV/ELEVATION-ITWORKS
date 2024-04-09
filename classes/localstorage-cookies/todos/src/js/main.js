@@ -1,10 +1,18 @@
-const state = {
-  todos: [],
-};
+import { storeToLs, readFromLS } from './utils/localstorage.js';
+
+
 
 const CLASS_LISTS = {
   INPUT: { VALID: 'input-valid', INVALID: 'input-invalid' },
   ERROR: { SHOW: 'error-show', HIDE: 'error-hide' },
+};
+
+const CONFIG = {
+  TODOS_LS_KEY: 'todos',
+};
+
+const state = {
+  todos: [],
 };
 
 const formEl = document.querySelector('.todo-form');
@@ -13,10 +21,14 @@ const descriptionInputEl = formEl.querySelector('#description');
 const dateInputEl = formEl.querySelector('#date');
 const todoContainerEl = document.querySelector('.todos-container');
 
-window.onload = (event) => {
-  if (localStorage.length != 0) {
-    Object.keys(localStorage).forEach((key) => renderTodo((JSON.parse(localStorage.getItem(key)))));
-  } 
+const data = readFromLS(CONFIG.TODOS_LS_KEY);
+// validate each todo
+const areValid = data?.some((todo) => {
+  return todo.id && todo.title && todo.description && todo.date && isDateValid(todo.date);
+});
+if (data && areValid) {
+  state.todos = data;
+  state.todos.forEach((todo) => renderTodo(todo));
 }
 
 
@@ -127,7 +139,9 @@ function createTodo({ title, description, date }) {
   };
 
   state.todos.push(todo);
-  localStorage.setItem(todo.id, JSON.stringify(todo));
+
+  storeToLs(CONFIG.TODOS_LS_KEY, state.todos);
+
   renderTodo(todo);
 }
 
@@ -149,13 +163,16 @@ function renderTodo(todo) {
   const deleteButton = todoEl.querySelector('.delete-todo');
   deleteButton.addEventListener('click', () => removeTodo(todo.id));
   todoContainerEl.appendChild(todoEl);
+  
 }
 
 function removeTodo(id) {
   const todoEl = document.querySelector(`[data-todo-id="${id}"]`);
   todoEl.remove();
   state.todos = state.todos.filter((todo) => todo.id !== id);
-  localStorage.removeItem(id);
+
+  storeToLs(CONFIG.TODOS_LS_KEY, state.todos);
+
 }
 
 function makeUUID() {
@@ -169,6 +186,6 @@ function makeUUID() {
 function isDateValid(dateStr) {
   //01-01
   return !isNaN(new Date(dateStr));
-}
 
+}
 
