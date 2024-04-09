@@ -31,6 +31,7 @@ if (data && areValid) {
   state.todos.forEach((todo) => renderTodo(todo));
 }
 
+
 formEl.addEventListener('submit', (e) => {
   e.preventDefault();
   validateInputs(formEl);
@@ -110,6 +111,8 @@ function validateInputs(formEl) {
   formEl.reset();
 }
 
+
+
 function renderErrorEl({ inputEl, errEl, msg, isError }) {
   if (!isError) {
     errEl.classList.add(CLASS_LISTS.ERROR.HIDE);
@@ -127,6 +130,7 @@ function renderErrorEl({ inputEl, errEl, msg, isError }) {
 }
 
 function createTodo({ title, description, date }) {
+  let item = 0;
   const todo = {
     id: makeUUID(),
     title,
@@ -135,7 +139,9 @@ function createTodo({ title, description, date }) {
   };
 
   state.todos.push(todo);
+
   storeToLs(CONFIG.TODOS_LS_KEY, state.todos);
+
   renderTodo(todo);
 }
 
@@ -164,7 +170,9 @@ function removeTodo(id) {
   const todoEl = document.querySelector(`[data-todo-id="${id}"]`);
   todoEl.remove();
   state.todos = state.todos.filter((todo) => todo.id !== id);
+
   storeToLs(CONFIG.TODOS_LS_KEY, state.todos);
+
 }
 
 function makeUUID() {
@@ -178,4 +186,6 @@ function makeUUID() {
 function isDateValid(dateStr) {
   //01-01
   return !isNaN(new Date(dateStr));
+
 }
+
