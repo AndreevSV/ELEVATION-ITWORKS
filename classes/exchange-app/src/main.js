@@ -1,6 +1,10 @@
+import { getSupportedCurrencies } from './main';
+import { getRates } from './main';
 import './style.css';
+export {getRates, getSupportedCurrencies, getExchangeResult} from './http/client';
 
-const ELEMENT_SELECTORS = { ROOT: '#app', NAVBAR: '[data-navbar]' };
+
+const ELEMENT_SELECTORS = { ROOT: '#app', NAVBAR: '[data-navbar]'};
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -13,8 +17,8 @@ export function init() {
   renderExchangePage();
 }
 
-export function renderExchangePage() {
-  getElement(ELEMENT_SELECTORS.ROOT).innerHTML = /*html*/ `
+export async function renderExchangePage() {
+    getElement(ELEMENT_SELECTORS.ROOT).innerHTML = /*html*/ `
     <h1>Exchange page</h1>
   `;
 }
@@ -22,7 +26,15 @@ export function renderExchangePage() {
 export function renderExchangeCalculator() {
   getElement(ELEMENT_SELECTORS.ROOT).innerHTML = /*html*/ `
     <h1>Exchange calculator</h1>
+    <form action="submit">
+        <label for="currencySelector"></label>
+      
+        <input type="submit" value="">
+      </form>
   `;
+
+  getElement(ELEMENT_SELECTORS.ROOT).
+
 }
 
 export function renderNavbarElement() {
@@ -41,3 +53,15 @@ export function renderNavbarElement() {
     renderExchangeCalculator();
   });
 }
+
+
+async function storeCurrencyList() {
+  var currencyList = await getSupportedCurrencies();
+  localStorage.setItem(currencyList);
+}
+
+getCurrencyLsit() {
+  localStorage.getItem(currencyList);
+}
+
+

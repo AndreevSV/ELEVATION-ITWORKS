@@ -1,14 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
+      <link rel="stylesheet" href="./src/style.css">
   </head>
   <body>
     <nav data-navbar></nav>
-    <div id="app"></div>
+    <div id="app">
+      <form action="submit">
+        <select name="" id=""></select>
+        <label for="currencySelector"></label>
+        <input type="text" name="" id="currencySelector">
+        <input type="submit" value="">
+      </form>
+      <div id="exchangeRateDiv" class="exchange-table-div">
+        <table id="exchangeRateTable" class="exchange-rate-table">
+          <thead>
+            <tr>
+              <th>Currency</th>
+              <th>Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>USD</td>
+              <td>0.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <script type="module" src="./src/main.js" defer></script>
   </body>
 </html>

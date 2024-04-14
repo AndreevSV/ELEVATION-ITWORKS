@@ -102,3 +102,17 @@ nav[data-navbar] {
   display: flex;
   justify-content: center;
 }
+
+#id {
+  /* display: flex; */
+  align-items: center;
+}
+
+
+
+.exchange-rate-table {
+  /* display: flex; */
+  align-items: center;
+  border: 2px solid black;
+}
+
